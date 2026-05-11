@@ -1,0 +1,134 @@
+:root {
+  --primary: #6366f1; /* Indigo moderno */
+  --bg-glass: rgba(255, 255, 255, 0.8);
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+.navbar {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 72px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px); /* Effetto sfocato moderno */
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.navbar-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Brand/Logo */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.logo-icon {
+  background: var(--primary);
+  color: white;
+  width: 35px;
+  height: 35px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.logo-text {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.5px;
+}
+
+/* Menu di navigazione */
+.nav-menu {
+  display: flex;
+  gap: 8px;
+  list-style: none;
+}
+
+.nav-menu a {
+  text-decoration: none;
+  color: var(--text-muted);
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.nav-menu a:hover {
+  background: rgba(99, 102, 241, 0.05);
+  color: var(--primary);
+}
+
+.nav-menu a.active {
+  color: var(--primary);
+  background: rgba(99, 102, 241, 0.1);
+}
+
+/* Sezione Utente */
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.btn-avatar {
+  border: 2px solid transparent;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.btn-avatar:hover {
+  transform: scale(1.05);
+  border-color: var(--primary);
+}
+
+.btn-avatar img {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.btn-logout-icon {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.btn-logout-icon:hover {
+  color: #ef4444;
+  background: #fef2f2;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-menu { display: none; } /* Qui andrebbe un menu hamburger */
+}
