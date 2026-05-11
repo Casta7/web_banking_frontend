@@ -1,23 +1,35 @@
 <div class="movimenti-container">
-      <div class="header">
-        <h2>Ultimi Movimenti</h2>
-        <span class="badge">{{ movimenti.length }} operazioni</span>
+  <div class="header">
+    <h2>Ultimi Movimenti</h2>
+    <span class="badge">{{ movimenti.length }} operazioni</span>
+  </div>
+
+  <div class="lista">
+    <!-- Tutta la riga è cliccabile grazie a [routerLink] -->
+    <div class="movimento-item" 
+         *ngFor="let m of movimenti" 
+         [routerLink]="['/dettaglio', m.id]">
+      
+      <div class="icon-container" [ngClass]="m.tipo">
+        <span>{{ m.tipo === 'versamento' ? '↓' : '↑' }}</span>
+      </div>
+      
+      <div class="info">
+        <span class="descrizione">{{ m.descrizione }}</span>
+        <span class="data">{{ m.data | date:'dd MMM yyyy' }}</span>
       </div>
 
-      <div class="lista">
-        <div class="movimento-item" *ngFor="let m of movimenti">
-          <div class="icon-container" [ngClass]="m.tipo">
-            <span>{{ m.tipo === 'versamento' ? '↓' : '↑' }}</span>
-          </div>
-          
-          <div class="info">
-            <span class="descrizione">{{ m.descrizione }}</span>
-            <span class="data">{{ m.data | date:'dd MMM yyyy' }}</span>
-          </div>
-
-          <div class="importo" [ngClass]="m.tipo">
-            {{ m.tipo === 'versamento' ? '+' : '-' }} {{ m.importo | currency:'EUR' }}
-          </div>
-        </div>
+      <div class="importo" [ngClass]="m.tipo">
+        {{ m.tipo === 'versamento' ? '+' : '-' }} {{ m.importo | currency:'EUR' }}
       </div>
+
+      <!-- Bottone Info con icona (opzionale ma utile) -->
+      <div class="action-info">
+        <button class="btn-info">
+          <svg xmlns="http://w3.org" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
+

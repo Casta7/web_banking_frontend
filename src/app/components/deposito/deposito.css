@@ -1,0 +1,50 @@
+.card-deposito {
+  max-width: 450px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+  font-family: sans-serif;
+}
+
+h2 { color: #1e293b; margin-bottom: 0.5rem; }
+.subtitle { color: #64748b; margin-bottom: 2rem; font-size: 0.9rem; }
+
+.form-group {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+label { font-weight: 600; color: #334155; }
+
+input {
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.3s;
+}
+
+input:focus { border-color: #6366f1; }
+
+.btn-confirm {
+  width: 100%;
+  padding: 14px;
+  background: #10b981; /* Verde successo */
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.3s;
+}
+
+.btn-confirm:hover {
+  background: #059669;
+  transform: translateY(-2px);
+}

@@ -1,0 +1,118 @@
+:host {
+  display: block;
+  background: #f8fafc; /* Grigio chiarissimo di sfondo */
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+.dettaglio-wrapper {
+  max-width: 550px;
+  margin: 0 auto;
+}
+
+/* Bottone Torna Indietro stile Mobile */
+.btn-back {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: #64748b;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 12px 0;
+  transition: color 0.2s;
+  margin-bottom: 1rem;
+}
+
+.btn-back:hover { color: #1e293b; }
+
+/* Card Principale */
+.main-card {
+  background: white;
+  border-radius: 32px;
+  padding: 2.5rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.category-tag {
+  background: #f1f5f9;
+  color: #475569;
+  padding: 6px 14px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Status Pill */
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.status-pill.confermato { color: #10b981; }
+.status-pill .dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+
+/* Amount Section */
+.amount-hero {
+  text-align: center;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px dashed #e2e8f0;
+  margin-bottom: 2rem;
+}
+
+.amount {
+  font-size: 3.5rem;
+  font-weight: 800;
+  letter-spacing: -2px;
+  margin: 0;
+}
+.amount-hero.versamento .amount { color: #0f172a; } /* Testo scuro, il segno sarà verde */
+.amount-hero.prelievo .amount { color: #ef4444; }
+
+.transaction-date { color: #64748b; font-weight: 500; margin-top: 8px; }
+.transaction-time { color: #94a3b8; font-size: 0.9rem; }
+
+/* Grid Dettagli */
+.details-grid { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.detail-label { color: #94a3b8; font-size: 0.9rem; font-weight: 500; }
+.detail-value { color: #1e293b; font-weight: 600; text-align: right; }
+
+/* Footer */
+.card-footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 3rem;
+}
+
+.btn-action {
+  padding: 14px;
+  border-radius: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s;
+}
+
+.btn-action:active { transform: scale(0.95); }
+.btn-action.primary { background: #1e293b; color: white; }
+.btn-action.secondary { background: #f1f5f9; color: #475569; }

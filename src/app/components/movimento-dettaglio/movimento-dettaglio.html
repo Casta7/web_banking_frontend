@@ -1,0 +1,48 @@
+<div class="dettaglio-wrapper" *ngIf="movimento">
+  <!-- Pulsante Torna Indietro Moderno -->
+  <button class="btn-back" routerLink="/home">
+    <svg xmlns="http://w3.org" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+    <span>Torna ai movimenti</span>
+  </button>
+
+  <div class="main-card">
+    <!-- Header con Stato e Categoria -->
+    <div class="card-header">
+      <span class="category-tag">{{ movimento.categoria }}</span>
+      <div class="status-pill" [ngClass]="movimento.stato">
+        <span class="dot"></span> {{ movimento.stato | titlecase }}
+      </div>
+    </div>
+
+    <!-- Sezione Importo (Hero) -->
+    <div class="amount-hero" [ngClass]="movimento.tipo">
+      <h1 class="amount">
+        {{ movimento.tipo === 'versamento' ? '+' : '-' }} {{ movimento.importo | currency:'EUR' }}
+      </h1>
+      <p class="transaction-date">{{ movimento.data | date:'EEEE, d MMMM yyyy' }}</p>
+      <p class="transaction-time">{{ movimento.data | date:'HH:mm' }}</p>
+    </div>
+
+    <!-- Info Grid -->
+    <div class="details-grid">
+      <div class="detail-row">
+        <div class="detail-label">Descrizione</div>
+        <div class="detail-value">{{ movimento.descrizione }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Metodo di Pagamento</div>
+        <div class="detail-value">{{ movimento.metodoPagamento }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">ID Transazione</div>
+        <div class="detail-value">#TRX-{{ movimento.id }}00452</div>
+      </div>
+    </div>
+
+    <!-- Footer Azioni -->
+    <div class="card-footer">
+      <button class="btn-action secondary">Scarica Ricevuta</button>
+      <button class="btn-action primary">Segnala Problema</button>
+    </div>
+  </div>
+</div>

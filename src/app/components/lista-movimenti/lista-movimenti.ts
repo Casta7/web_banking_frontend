@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ServizioMovimenti } from '../../services/servizio-movimenti';
 import { Movimento } from '../../models/movimento/movimento-module';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-lista-movimenti',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './lista-movimenti.html',
   styleUrl: `./lista-movimenti.css`
 })

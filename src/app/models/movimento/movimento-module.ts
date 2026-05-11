@@ -1,8 +1,10 @@
 export interface Movimento {
   id: number;
-  tipo: 'versamento' | 'prelievo'; // Usiamo i literal types per sicurezza
+  tipo: 'versamento' | 'prelievo';
   importo: number;
-  data: Date;
+  data: Date; // Contiene sia data che ora
   descrizione: string;
-  categoria?: string; // Opzionale (es. Spesa, Stipendio, Svago)
+  categoria: string;      // Es: 'Stipendio', 'Alimentari', 'Affitto'
+  metodoPagamento: string; // Es: 'Carta di Debito', 'Bonifico SEPA'
+  stato: 'confermato' | 'in attesa';
 }
