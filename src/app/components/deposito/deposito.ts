@@ -1,36 +1,37 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router'; // Per tornare alla lista dopo il deposito
+import { Router, RouterLink } from '@angular/router'; // Per tornare alla lista dopo il deposito
 import { ServizioMovimenti } from '../../services/servizio-movimenti';
 
 @Component({
   selector: 'app-deposito',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './deposito.html',
   styleUrls: ['./deposito.css']
 })
+
 export class Deposito {
+  @Input() mode: 'home' | 'full' = 'full';
   
   constructor(
     private servizio: ServizioMovimenti,
     private router: Router
   ) {}
 
-  confermaDeposito(event: Event) {
-    event.preventDefault(); // Evita il refresh della pagina
-    
-    // Recuperiamo i dati dagli input (usando l'evento target o ViewChild, qui usiamo l'approccio semplice)
-    const form = event.target as HTMLFormElement;
-    const importo = parseFloat((form.elements[0] as HTMLInputElement).value);
-    const descrizione = (form.elements[1] as HTMLInputElement).value;
+  // Passiamo direttamente i valori dall'HTML
+  confermaDeposito(importo: string, descrizione: string) {
+    const valore = parseFloat(importo);
 
-    if (importo > 0 && descrizione.trim() !== '') {
-      // Usiamo il metodo del servizio
-      this.servizio.aggiungiOperazione('versamento', importo, descrizione);
+    if (valore > 0 && descrizione.trim() !== '') {
+      this.servizio.aggiungiOperazione('versamento', valore, descrizione);
       
-      // Torniamo alla lista movimenti per vedere il risultato
+      // Se sei in Home, vuoi che i dati si aggiornino subito senza ricaricare la rotta
+      // Se vuoi comunque forzare un passaggio alla pagina home/lista:
       this.router.navigate(['/home']);
+    } else {
+      alert("Inserisci un importo valido e una descrizione!");
     }
   }
 }
+

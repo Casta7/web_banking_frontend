@@ -1,50 +1,118 @@
+/* =========================================
+   STILE BASE (Sempre applicato)
+   ========================================= */
 .card-deposito {
-  max-width: 450px;
-  margin: 3rem auto;
-  padding: 2rem;
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-  font-family: sans-serif;
-}
-
-h2 { color: #1e293b; margin-bottom: 0.5rem; }
-.subtitle { color: #64748b; margin-bottom: 2rem; font-size: 0.9rem; }
-
-.form-group {
-  margin-bottom: 1.5rem;
+  width: 100%;        /* Occupa tutta la larghezza del tag app-deposito */
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  box-sizing: border-box;
+  background: white;
+  padding: 2.5rem;
+  border-radius: 24px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  font-family: sans-serif;
+  transition: all 0.3s ease;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
-label { font-weight: 600; color: #334155; }
+h2 {
+  color: #1e293b;
+  margin: 0 0 0.5rem 0;
+  font-weight: 700;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+
+label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
 
 input {
-  padding: 12px;
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
-  font-size: 1rem;
+  padding: 0.9rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
   outline: none;
-  transition: border 0.3s;
+  transition: border-color 0.2s;
 }
 
-input:focus { border-color: #6366f1; }
+input:focus {
+  border-color: #3b82f6;
+}
 
 .btn-confirm {
   width: 100%;
-  padding: 14px;
-  background: #10b981; /* Verde successo */
+  background: #10b981;
   color: white;
   border: none;
-  border-radius: 10px;
-  font-size: 1rem;
+  padding: 1rem;
+  border-radius: 12px;
   font-weight: 700;
   cursor: pointer;
-  transition: transform 0.2s, background 0.3s;
+  transition: background 0.2s;
 }
 
-.btn-confirm:hover {
-  background: #059669;
-  transform: translateY(-2px);
+/* =========================================
+   VARIANTE PER LA HOME (.mode-home)
+   ========================================= */
+.card-deposito.mode-home {
+  padding: 1.2rem;
+  max-width: 100%;
+  background: #f8fafc;
+  border-radius: 15px;
+  box-shadow: none;
+}
+
+.card-deposito.mode-home h2 {
+  font-size: 1.2rem;
+}
+
+.card-deposito.mode-home .subtitle {
+  display: none; /* Nascondiamo il testo lungo in home */
+}
+
+.card-deposito.mode-home .form-group {
+  margin-bottom: 0.8rem;
+}
+
+.card-deposito.mode-home input {
+  padding: 0.6rem;
+}
+
+.card-deposito.mode-home .btn-confirm {
+  padding: 0.7rem;
+}
+
+
+/* Stile specifico per il contenuto della Home */
+.home-cta {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.card-deposito.mode-home {
+  cursor: pointer;
+  /* Rendiamo l'intera card cliccabile se preferisci */
+  transition: transform 0.3s ease;
+}
+
+.card-deposito.mode-home:hover {
+  transform: translateY(-5px);
+  border-color: #10b981; /* Verde come il bottone */
+}
+
+/* Assicurati che il bottone in Home sia sempre in fondo */
+.card-deposito.mode-home .btn-confirm {
+  margin-top: auto;
 }

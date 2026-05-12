@@ -41,6 +41,17 @@ export class ServizioMovimenti {
 
   constructor() { }
 
+  // Metodo per calcolare il saldo totale
+  getSaldo(): number {
+    return this.movimenti.reduce((acc, mov) => {
+      if (mov.tipo === 'versamento') {
+        return acc + mov.importo;
+      } else {
+        return acc - mov.importo;
+      }
+    }, 0);
+  }
+
   // Ritorna tutta la lista
   getMovimenti(): Movimento[] {
     return this.movimenti;

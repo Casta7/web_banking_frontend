@@ -4,10 +4,11 @@ import { ListaMovimenti } from "./components/lista-movimenti/lista-movimenti";
 import { Preleva } from "./components/preleva/preleva";
 import { Saldo } from "./components/saldo/saldo";
 import { MovimentoDettaglio } from "./components/movimento-dettaglio/movimento-dettaglio";
+import { Home } from "./components/home/home";
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // Redirect alla home all'avvio
-  { path: 'home', component: ListaMovimenti },
+  { path: 'home', component: Home },
   { path: 'preleva', component: Preleva },
   { path: 'saldo', component: Saldo },
   { path: 'deposito', component: Deposito },

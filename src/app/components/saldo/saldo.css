@@ -1,0 +1,73 @@
+/* Stile base comune */
+.balance-card {
+  width: 100%;
+  height: 100%;       /* Fondamentale per il pareggio */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centra il saldo verticalmente */
+  padding: 2.5rem;    /* Deve essere identico al deposito */
+  box-sizing: border-box;
+}
+
+/* Stile per la HOME (più piccolo e discreto) */
+.balance-card.mode-home {
+  padding: 1rem;
+  background: #f1f5f9;
+  color: #1e293b;
+  border: 1px solid #e2e8f0;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Animazione fluida */
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+.balance-card.mode-home .card-amount {
+  font-size: 1.5rem;
+}
+
+/* Stile per la PAGINA SPECIFICA (grande e d'impatto) */
+.balance-card.mode-full {
+  padding: 3rem;
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  color: white;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+.balance-card.mode-full .card-amount {
+  font-size: 3rem;
+}
+
+/* Effetto Hover */
+.balance-card.mode-home:hover {
+  transform: translateY(-8px) scale(1.02); /* Si alza e si ingrandisce leggermente */
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15); /* Ombra più intensa */
+  border-color: #3b82f6; /* Il bordo diventa blu (o il tuo colore primario) */
+}
+
+/* Effetto riflesso (opzionale, molto moderno) */
+.balance-card.mode-home::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: 0.5s;
+  z-index: -1;
+}
+
+.balance-card.mode-home:hover::after {
+  left: 100%; /* Un lampo di luce attraversa la card */
+}
+
+/* Se vuoi che anche il numero del saldo cambi colore al passaggio */
+.balance-card.mode-home:hover .card-amount {
+  color: #3b82f6;
+  transition: color 0.3s ease;
+}

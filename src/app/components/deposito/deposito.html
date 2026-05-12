@@ -1,18 +1,28 @@
-<div class="card-deposito">
+<div class="card-deposito" [ngClass]="{'mode-home': mode === 'home'}">
   <h2>Effettua un Deposito</h2>
-  <p class="subtitle">Inserisci i dati per ricaricare il tuo conto</p>
 
-  <form (submit)="confermaDeposito($event)">
-    <div class="form-group">
-      <label>Importo (€)</label>
-      <input type="number" #importoInput placeholder="0.00" step="0.01" required>
-    </div>
+  <!-- CASO HOME: Solo messaggio e bottone di navigazione -->
+  <div *ngIf="mode === 'home'" class="home-cta">
+    <p class="subtitle">Ricarica il tuo conto in pochi istanti con un versamento.</p>
+    <button class="btn-confirm" [routerLink]="['/deposito']">
+      Vai ai depositi
+    </button>
+  </div>
 
-    <div class="form-group">
-      <label>Descrizione</label>
-      <input type="text" #descrizioneInput placeholder="Es. Versamento contanti" required>
-    </div>
-
-    <button type="submit" class="btn-confirm">Versa Ora</button>
-  </form>
+  <!-- CASO FULL: Il form completo -->
+  <div *ngIf="mode !== 'home'">
+    <p class="subtitle">Inserisci i dati per ricaricare il tuo conto</p>
+    <form (submit)="$event.preventDefault(); confermaDeposito(imp.value, desc.value)">
+      <div class="form-group">
+        <label>Importo (€)</label>
+        <input type="number" #imp placeholder="0.00" step="0.01" required>
+      </div>
+      <div class="form-group">
+        <label>Descrizione</label>
+        <input type="text" #desc placeholder="Es. Versamento contanti" required>
+      </div>
+      <button type="submit" class="btn-confirm">Versa Ora</button>
+    </form>
+  </div>
 </div>
+

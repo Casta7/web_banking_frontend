@@ -1,1 +1,7 @@
-<p>saldo works!</p>
+<div class="balance-card" [ngClass]="{'mode-home': mode === 'home', 'mode-full': mode === 'full'}" [routerLink]="['/saldo']">
+  <div class="card-content">
+    <p class="card-label">Saldo Totale</p>
+    <h2 class="card-amount">{{ saldo | currency:'EUR' }}</h2>
+  </div>
+</div>
+
