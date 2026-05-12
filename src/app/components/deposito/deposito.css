@@ -1,11 +1,5 @@
-/* =========================================
-   STILE BASE (Sempre applicato)
-   ========================================= */
+/* --- STILE BASE (Card e Titolo) --- */
 .card-deposito {
-  width: 100%;        /* Occupa tutta la larghezza del tag app-deposito */
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
   background: white;
   padding: 2.5rem;
   border-radius: 24px;
@@ -13,28 +7,55 @@
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
   font-family: sans-serif;
   transition: all 0.3s ease;
-  max-width: 500px;
+  width: 100%;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
 }
 
 h2 {
   color: #1e293b;
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 1rem 0;
   font-weight: 700;
 }
 
+.subtitle {
+  color: #64748b;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+/* --- VARIANTE HOME (Più compatta e Cliccabile) --- */
+.card-deposito.mode-home {
+  padding: 2.5rem; /* Mantieni uguale a Saldo */
+  background: #f8fafc;
+  cursor: pointer;
+}
+
+.card-deposito.mode-home:hover {
+  transform: translateY(-5px);
+  border-color: #10b981;
+}
+
+.home-cta {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* --- FORM E BOTTONE --- */
 .form-group {
   display: flex;
   flex-direction: column;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.2rem;
 }
 
 label {
   font-size: 0.75rem;
   font-weight: 700;
-  color: #475569;
   margin-bottom: 0.5rem;
   text-transform: uppercase;
+  color: #475569;
 }
 
 input {
@@ -42,15 +63,11 @@ input {
   border: 2px solid #e2e8f0;
   border-radius: 12px;
   outline: none;
-  transition: border-color 0.2s;
 }
 
-input:focus {
-  border-color: #3b82f6;
-}
+input:focus { border-color: #3b82f6; }
 
 .btn-confirm {
-  width: 100%;
   background: #10b981;
   color: white;
   border: none;
@@ -58,61 +75,7 @@ input:focus {
   border-radius: 12px;
   font-weight: 700;
   cursor: pointer;
-  transition: background 0.2s;
+  margin-top: auto; /* Spinge il bottone sempre in fondo in Home */
 }
 
-/* =========================================
-   VARIANTE PER LA HOME (.mode-home)
-   ========================================= */
-.card-deposito.mode-home {
-  padding: 1.2rem;
-  max-width: 100%;
-  background: #f8fafc;
-  border-radius: 15px;
-  box-shadow: none;
-}
-
-.card-deposito.mode-home h2 {
-  font-size: 1.2rem;
-}
-
-.card-deposito.mode-home .subtitle {
-  display: none; /* Nascondiamo il testo lungo in home */
-}
-
-.card-deposito.mode-home .form-group {
-  margin-bottom: 0.8rem;
-}
-
-.card-deposito.mode-home input {
-  padding: 0.6rem;
-}
-
-.card-deposito.mode-home .btn-confirm {
-  padding: 0.7rem;
-}
-
-
-/* Stile specifico per il contenuto della Home */
-.home-cta {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-}
-
-.card-deposito.mode-home {
-  cursor: pointer;
-  /* Rendiamo l'intera card cliccabile se preferisci */
-  transition: transform 0.3s ease;
-}
-
-.card-deposito.mode-home:hover {
-  transform: translateY(-5px);
-  border-color: #10b981; /* Verde come il bottone */
-}
-
-/* Assicurati che il bottone in Home sia sempre in fondo */
-.card-deposito.mode-home .btn-confirm {
-  margin-top: auto;
-}
+.btn-confirm:hover { background: #059669; }
