@@ -1,1 +1,51 @@
-<p>preleva works!</p>
+<div class="withdraw-card" [ngClass]="{'mode-home': mode === 'home', 'mode-full': mode === 'full'}">
+  
+  <!-- Header dinamico in base al contesto -->
+  <div class="card-header">
+    <div class="icon-badge">
+      <svg xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+    </div>
+    <div class="header-text">
+      <h2>{{ mode === 'home' ? 'Prelievo Rapido' : 'Nuovo Prelievo' }}</h2>
+      @if (mode === 'full') {
+        <p>Preleva fondi in tempo reale dal tuo conto EUR</p>
+      }
+    </div>
+  </div>
+
+  <!-- Form di Inserimento -->
+  <div class="card-body">
+    <div class="input-group">
+      <label for="importo">Importo da prelevare</label>
+      <div class="input-wrapper">
+        <span class="currency-symbol">€</span>
+        <input #inputImporto type="number" id="importo" placeholder="0.00" min="0.01" step="0.01">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="descrizione">Causale / Descrizione</label>
+      <input #inputDescrizione type="text" id="descrizione" placeholder="Es. Spesa, bolletta, svago...">
+    </div>
+  </div>
+
+  <!-- Footer con i bottoni di azione -->
+  <div class="card-footer">
+    <button 
+      [disabled]="caricamento" 
+      (click)="confermaPreleva(inputImporto.value, inputDescrizione.value)" 
+      class="btn btn-withdraw">
+      @if (caricamento) {
+        <span class="spinner"></span>
+        <span>Elaborazione...</span>
+      } @else {
+        <span>Conferma Prelievo</span>
+      }
+    </button>
+
+    @if (mode === 'full') {
+      <a routerLink="/home" class="btn btn-link">Annulla e torna indietro</a>
+    }
+  </div>
+
+</div>

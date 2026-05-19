@@ -1,28 +1,51 @@
-<div class="card-deposito" [ngClass]="{'mode-home': mode === 'home'}">
-  <h2>Effettua un Deposito</h2>
+<div class="deposit-card" [ngClass]="{'mode-home': mode === 'home', 'mode-full': mode === 'full'}">
+  
+  <div class="card-header">
+    <div class="icon-badge">
+      <svg xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+    </div>
+    <div class="header-text">
+      <h2>{{ mode === 'home' ? 'Deposito Rapido' : 'Nuovo Deposito' }}</h2>
+      @if (mode === 'full') {
+        <p>Aggiungi fondi in tempo reale al tuo conto EUR</p>
+      }
+    </div>
+  </div>
 
-  <!-- CASO HOME: Solo messaggio e bottone di navigazione -->
-  <div *ngIf="mode === 'home'" class="home-cta">
-    <p class="subtitle">Ricarica il tuo conto in pochi istanti con un versamento.</p>
-    <button class="btn-confirm" [routerLink]="['/deposito']">
-      Vai ai depositi
+  <div class="card-body">
+    <div class="input-group">
+      <label for="importo">Importo da depositare</label>
+      <div class="input-wrapper">
+        <span class="currency-symbol">€</span>
+        <input #inputImporto type="number" id="importo" placeholder="0.00" min="0.01" step="0.01">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="descrizione">Causale / Descrizione</label>
+      <input #inputDescrizione type="text" id="descrizione" placeholder="Es. Stipendio, rimborso, regalo...">
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <!-- Rimosso il submit del form: ora gestito unicamente dal click del bottone -->
+    <button 
+      [disabled]="caricamento" 
+      (click)="confermaDeposito(inputImporto.value, inputDescrizione.value)" 
+      class="btn btn-deposit">
+      @if (caricamento) {
+        <span class="spinner"></span>
+        <span>Elaborazione...</span>
+      } @else {
+        <span>Conferma Deposito</span>
+      }
     </button>
+
+    @if (mode === 'full') {
+      <a routerLink="/home" class="btn btn-link">Annulla e torna indietro</a>
+    }
   </div>
 
-  <!-- CASO FULL: Il form completo -->
-  <div *ngIf="mode !== 'home'">
-    <p class="subtitle">Inserisci i dati per ricaricare il tuo conto</p>
-    <form (submit)="$event.preventDefault(); confermaDeposito(imp.value, desc.value)">
-      <div class="form-group">
-        <label>Importo (€)</label>
-        <input type="number" #imp placeholder="0.00" step="0.01" required>
-      </div>
-      <div class="form-group">
-        <label>Descrizione</label>
-        <input type="text" #desc placeholder="Es. Versamento contanti" required>
-      </div>
-      <button type="submit" class="btn-confirm">Versa Ora</button>
-    </form>
-  </div>
 </div>
+
 

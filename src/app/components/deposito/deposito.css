@@ -1,81 +1,206 @@
-/* --- STILE BASE (Card e Titolo) --- */
-.card-deposito {
-  background: white;
-  padding: 2.5rem;
-  border-radius: 24px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-  font-family: sans-serif;
-  transition: all 0.3s ease;
+:host {
+  display: block;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --primary-success: #2a9d8f;
+  --primary-success-hover: #218074;
+  --text-dark: #1d1e22;
+  --text-muted: #6c757d;
+  --bg-input: #f8f9fa;
+  --border-color: #e9ecef;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --transition: all 0.25s ease-in-out;
+}
+
+.deposit-card {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  box-sizing: border-box;
   width: 100%;
-  margin: 0 auto;
+}
+
+.deposit-card.mode-full {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 32px;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.deposit-card.mode-home {
+  padding: 20px;
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.mode-home .card-header {
+  margin-bottom: 16px;
+}
+
+.icon-badge {
+  background-color: #e6f6f4;
+  color: var(--primary-success);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.icon-badge svg {
+  width: 22px;
+  height: 22px;
+}
+
+.header-text h2 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.mode-home .header-text h2 {
+  font-size: 1.15rem;
+}
+
+.header-text p {
+  margin: 4px 0 0 0;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.card-body {
   display: flex;
   flex-direction: column;
+  gap: 18px;
 }
 
-h2 {
-  color: #1e293b;
-  margin: 0 0 1rem 0;
-  font-weight: 700;
+.mode-home .card-body {
+  gap: 12px;
 }
 
-.subtitle {
-  color: #64748b;
-  font-size: 0.95rem;
-  margin-bottom: 1.5rem;
-}
-
-/* --- VARIANTE HOME (Più compatta e Cliccabile) --- */
-.card-deposito.mode-home {
-  padding: 2.5rem; /* Mantieni uguale a Saldo */
-  background: #f8fafc;
-  cursor: pointer;
-}
-
-.card-deposito.mode-home:hover {
-  transform: translateY(-5px);
-  border-color: #10b981;
-}
-
-.home-cta {
+.input-group {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  gap: 6px;
 }
 
-/* --- FORM E BOTTONE --- */
-.form-group {
+.input-group label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-dark);
+}
+
+.input-wrapper {
+  position: relative;
   display: flex;
-  flex-direction: column;
-  margin-bottom: 1.2rem;
+  align-items: center;
 }
 
-label {
-  font-size: 0.75rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  text-transform: uppercase;
-  color: #475569;
+.currency-symbol {
+  position: absolute;
+  left: 14px;
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 1.1rem;
 }
 
-input {
-  padding: 0.9rem;
-  border: 2px solid #e2e8f0;
-  border-radius: 12px;
+input[type="number"],
+input[type="text"] {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-input);
+  font-size: 1rem;
+  color: var(--text-dark);
+  transition: var(--transition);
+  box-sizing: border-box;
+}
+
+input[type="number"] {
+  padding-left: 32px;
+}
+
+input:focus {
   outline: none;
+  background-color: #ffffff;
+  border-color: var(--primary-success);
+  box-shadow: 0 0 0 4px rgba(42, 157, 143, 0.1);
 }
 
-input:focus { border-color: #3b82f6; }
+.card-footer {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
 
-.btn-confirm {
-  background: #10b981;
-  color: white;
-  border: none;
-  padding: 1rem;
-  border-radius: 12px;
-  font-weight: 700;
+.mode-home .card-footer {
+  margin-top: 16px;
+}
+
+.btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  margin-top: auto; /* Spinge il bottone sempre in fondo in Home */
+  transition: var(--transition);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-.btn-confirm:hover { background: #059669; }
+.btn-deposit {
+  background-color: var(--primary-success);
+  color: #ffffff;
+}
+
+.btn-deposit:hover:not(:disabled) {
+  background-color: var(--primary-success-hover);
+}
+
+.btn-deposit:disabled {
+  background-color: var(--text-muted);
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-link {
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.btn-link:hover {
+  color: var(--text-dark);
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #ffffff;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

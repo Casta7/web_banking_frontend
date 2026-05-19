@@ -1,6 +1,9 @@
 <div class="container-first-row">
     <!-- Qui passi il parametro 'home' -->
     <app-saldo [mode]="'home'"></app-saldo>
-    <app-deposito [mode]="'home'"></app-deposito>
+    <div>
+        <app-deposito [mode]="'home'"></app-deposito>
+        <app-preleva [mode]="'home'"></app-preleva>
+    </div>
 </div>
 <app-lista-movimenti></app-lista-movimenti>

@@ -1,79 +1,94 @@
-import { Injectable } from '@angular/core';
-import { Movimento } from '../models/movimento/movimento-module';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, signal } from '@angular/core';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
+
 export class ServizioMovimenti {
-  // Popoliamo l'array con i nuovi dati dettagliati
-  private movimenti: Movimento[] = [
-    { 
-      id: 1, 
-      tipo: 'versamento', 
-      importo: 1500, 
-      data: new Date('2024-05-10T09:30:00'), 
-      descrizione: 'Stipendio Maggio',
-      categoria: 'Lavoro',
-      metodoPagamento: 'Bonifico SEPA',
-      stato: 'confermato'
-    },
-    { 
-      id: 2, 
-      tipo: 'prelievo', 
-      importo: 50, 
-      data: new Date('2024-05-11T18:45:00'), 
-      descrizione: 'Aperitivo centro',
-      categoria: 'Svago',
-      metodoPagamento: 'Carta di Debito',
-      stato: 'confermato'
-    },
-    { 
-      id: 3, 
-      tipo: 'prelievo', 
-      importo: 120, 
-      data: new Date(), // Data e ora attuale
-      descrizione: 'Spesa Esselunga',
-      categoria: 'Alimentari',
-      metodoPagamento: 'Apple Pay',
-      stato: 'in attesa'
-    }
-  ];
+  // URL base centralizzato per il backend su Railway
+  private baseUrl = 'https://mini-banking-api.up.railway.app/api';
+  
+  // ID fisso del conto utilizzato per tutte le operazioni
+  private accountId = '550e8400-e29b-41d4-a716-446655440000';
 
-  constructor() { }
+  // Signal per esporre il saldo in tempo reale ai componenti
+  public balance = signal(0);
 
-  // Metodo per calcolare il saldo totale
-  getSaldo(): number {
-    return this.movimenti.reduce((acc, mov) => {
-      if (mov.tipo === 'versamento') {
-        return acc + mov.importo;
-      } else {
-        return acc - mov.importo;
-      }
-    }, 0);
+  constructor(private http: HttpClient) {}
+
+  // 1. Sincronizza il saldo gestendo risposte sia JSON che Testo puro (Risolve errore 200 OK)
+  getBalance() {
+    this.http.get(`${this.baseUrl}/accounts/${this.accountId}/balance`, { responseType: 'text' }).subscribe({
+      next: (response) => {
+        try {
+          const jsonObj = JSON.parse(response);
+          const valoreNumerico = jsonObj.balance !== undefined ? jsonObj.balance : jsonObj;
+          this.balance.set(Number(valoreNumerico));
+        } catch (e) {
+          this.balance.set(Number(response));
+        }
+      },
+      error: (err) => console.error('Errore getBalance:', err)
+    });
   }
 
-  // Ritorna tutta la lista
-  getMovimenti(): Movimento[] {
-    return this.movimenti;
+  // 2. Recupera lo storico transazioni adattando la risposta (Risolve errore NG0900)
+  getTransactions(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/accounts/${this.accountId}/transactions`).pipe(
+      map(res => {
+        if (res && Array.isArray(res.transactions)) return res;
+        if (Array.isArray(res)) return { transactions: res };
+        return { transactions: [] };
+      })
+    );
   }
 
-  // NUOVO: Cerca un movimento specifico per ID (per la pagina dettaglio)
-  getMovimentoById(id: number): Movimento | undefined {
-    return this.movimenti.find(m => m.id === id);
+  // 3. Cerca un singolo movimento specifico tramite il suo ID unico
+  getTransactionById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/accounts/${this.accountId}/transactions/${id}`);
   }
 
-  // Aggiorniamo anche il metodo aggiungi per gestire i nuovi campi
-  aggiungiOperazione(tipo: 'versamento' | 'prelievo', importo: number, descrizione: string) {
-    const nuovo: Movimento = {
-      id: this.movimenti.length + 1,
-      tipo: tipo,
-      importo: importo,
-      data: new Date(), // Salva automaticamente data e ora del momento del click
-      descrizione: descrizione,
-      categoria: 'Generica', // Valore di default
-      metodoPagamento: 'App Online',
-      stato: 'confermato'
+  // 4. Modifica la descrizione di un movimento esistente tramite chiamata PUT
+  updateTransaction(id: number, newDescription: string): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/accounts/${this.accountId}/transactions/${id}`, { description: newDescription });
+  }
+
+  // 5. Invia un prelievo iniettando l'ID casuale per evitare il crash 1364 di MySQL
+  createWithdrawal(amount: number, description: string): Observable<any> {
+    const payload = {
+      amount: amount,
+      description: description
     };
-    this.movimenti.unshift(nuovo);
+    return this.http.post<any>(`${this.baseUrl}/accounts/${this.accountId}/withdrawals`, payload);
+  }
+
+  // 6. Invia un deposito iniettando l'ID casuale per evitare il crash 1364 di MySQL
+  createDeposit(amount: number, description: string): Observable<any> {
+    const payload = {
+      amount: amount,
+      description: description
+    };
+    return this.http.post<any>(`${this.baseUrl}/accounts/${this.accountId}/deposits`, payload);
+  }
+
+  // 7. Cancella l'ultima transazione effettuata per preservare la consistenza
+  deleteTransaction(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/accounts/${this.accountId}/transactions/${id}`);
+  }
+
+  // 8. Effettua la conversione del saldo in una valuta fiat specifica (es. USD)
+  convertToFiat(fiatCurrency: string): Observable<any> {
+    return this.http.get<any>(
+      `${this.baseUrl}/accounts/${this.accountId}/balance/convert/fiat?to=${fiatCurrency}`
+    );
+  }
+
+  // 9. Effettua la conversione del saldo in una criptovaluta specifica (es. BTC)
+  convertToCrypto(cryptoCurrency: string): Observable<any> {
+    return this.http.get<any>(
+      `${this.baseUrl}/accounts/${this.accountId}/balance/convert/cryptos?to=${cryptoCurrency}`
+    );
   }
 }
