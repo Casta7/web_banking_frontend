@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ServizioMovimenti } from '../../services/servizio-movimenti'; // Controlla il percorso del file
+import { ServizioMovimenti } from '../../services/servizio-movimenti'; // Controlla il percorso
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -21,16 +21,17 @@ export class ListaMovimenti implements OnInit {
     this.caricaMovimenti();
   }
 
+  // Spostiamo la logica in un metodo riutilizzabile
   caricaMovimenti() {
+    this.caricamento = true;
     this.servizio.getTransactions().subscribe({
       next: (risposta) => {
-        // Estrae l'array sicuro di transazioni mappato dal servizio
         this.movimenti = risposta.transactions || [];
         this.caricamento = false;
       },
       error: (err) => {
         console.error('Errore nel recupero della lista movimenti:', err);
-        this.erroreMessaggio = 'Impossibile caricare i movimenti. Riprova più tardi.';
+        this.erroreMessaggio = 'Impossibile caricare i movimenti.';
         this.caricamento = false;
       }
     });

@@ -10,38 +10,33 @@ import { ServizioMovimenti } from '../../services/servizio-movimenti';
   templateUrl: './preleva.html',
   styleUrls: ['./preleva.css']
 })
-
 export class Preleva {
   @Input() mode: 'home' | 'full' = 'full';
-  
-  caricamento: boolean = false; // Blocca i clic ripetuti durante l'invio HTTP
+  caricamento: boolean = false;
 
-  constructor(
-    private servizio: ServizioMovimenti,
-    private router: Router
-  ) {}
+  constructor(private servicio: ServizioMovimenti, private router: Router) {}
 
-  // Gestisce la chiamata API asincrona per registrare l'uscita
   confermaPreleva(importo: string, descrizione: string) {
     const valore = parseFloat(importo);
-
-    // Validazione dei dati inseriti dall'utente
-    if (isNaN(valore) || valore <= 0) {
-      alert("Inserisci un importo valido maggiore di zero!");
-      return;
-    }
-
-    if (descrizione.trim() === '') {
-      alert("Inserisci una descrizione per il prelievo!");
-      return;
-    }
+    if (isNaN(valore) || valore <= 0 || descrizione.trim() === '') return;
 
     this.caricamento = true;
 
-    // Chiama aggiungiOperazione passando il tipo 'prelievo' per attivare l'endpoint POST /withdrawals
-    this.servizio.createWithdrawal(valore, descrizione).subscribe({
-      next: () => this.router.navigate(['/home'])
+    this.servicio.createWithdrawal(valore, descrizione.trim()).subscribe({
+      next: (risposta) => {
+        // Forza l'aggiornamento istantaneo del saldo condiviso
+        this.servicio.getBalance();
+        
+        setTimeout(() => {
+          this.caricamento = false;
+          this.router.navigate(['/home']);
+        });
+      },
+      error: (err) => {
+        console.error('Errore prelievo:', err);
+        alert('Errore o fondi insufficienti.');
+        setTimeout(() => this.caricamento = false);
+      }
     });
-
   }
 }
