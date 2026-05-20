@@ -1,6 +1,6 @@
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ServizioMovimenti } from '../../services/servizio-movimenti';
-import { Component, Input, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -12,12 +12,16 @@ import { RouterLink } from '@angular/router';
 })
 export class Saldo implements OnInit {
   @Input() mode: 'home' | 'full' = 'full';
-  saldo: number = 0;
+
+  // Legge in tempo reale il valore del Signal esposto dal servizio
+  get saldo(): number {
+    return this.servizio.balance();
+  }
 
   constructor(private servizio: ServizioMovimenti) {}
 
   ngOnInit() {
-    // Richiede al servizio di effettuare la chiamata HTTP per recuperare il saldo aggiornato
+    // Richiede al servizio di effettuare la chiamata HTTP per recuperare il saldo iniziale
     this.servizio.getBalance();
   }
 }

@@ -17,23 +17,27 @@
       <label for="importo">Importo da depositare</label>
       <div class="input-wrapper">
         <span class="currency-symbol">€</span>
-        <input #inputImporto type="number" id="importo" placeholder="0.00" min="0.01" step="0.01">
+        <!-- Aggiunto disabilitazione input durante il caricamento -->
+        <input #inputImporto [disabled]="caricamento()" type="number" id="importo" placeholder="0.00" min="0.01" step="0.01">
       </div>
     </div>
 
     <div class="input-group">
       <label for="descrizione">Causale / Descrizione</label>
-      <input #inputDescrizione type="text" id="descrizione" placeholder="Es. Stipendio, rimborso, regalo...">
+      <!-- Aggiunto disabilitazione input durante il caricamento -->
+      <input #inputDescrizione [disabled]="caricamento()" type="text" id="descrizione" placeholder="Es. Stipendio, rimborso, regalo...">
     </div>
   </div>
 
   <div class="card-footer">
-    <!-- Rimosso il submit del form: ora gestito unicamente dal click del bottone -->
+    <!-- Richiamo del signal con caricamento() e classe dinamica per lo stile -->
     <button 
-      [disabled]="caricamento" 
+      [disabled]="caricamento()" 
+      [class.btn-disabled]="caricamento()"
       (click)="confermaDeposito(inputImporto.value, inputDescrizione.value)" 
       class="btn btn-deposit">
-      @if (caricamento) {
+      
+      @if (caricamento()) {
         <span class="spinner"></span>
         <span>Elaborazione...</span>
       } @else {
@@ -41,11 +45,9 @@
       }
     </button>
 
-    @if (mode === 'full') {
+    @if (mode === 'full' && !caricamento()) {
       <a routerLink="/home" class="btn btn-link">Annulla e torna indietro</a>
     }
   </div>
 
 </div>
-
-

@@ -1,24 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs'; // Aggiunto 'tap'
 
 @Injectable({
   providedIn: 'root',
 })
-
 export class ServizioMovimenti {
-  // URL base centralizzato per il backend su Railway
   private baseUrl = 'https://mini-banking-api.up.railway.app/api';
-  
-  // ID fisso del conto utilizzato per tutte le operazioni
   private accountId = '550e8400-e29b-41d4-a716-446655440000';
 
-  // Signal per esporre il saldo in tempo reale ai componenti
   public balance = signal(0);
+  
+  // 1. AGGIUNGI: Signal centralizzato per i movimenti, accessibile da tutta l'app
+  public movimenti = signal<any[]>([]);
 
   constructor(private http: HttpClient) {}
 
-  // 1. Sincronizza il saldo gestendo risposte sia JSON che Testo puro (Risolve errore 200 OK)
   getBalance() {
     this.http.get(`${this.baseUrl}/accounts/${this.accountId}/balance`, { responseType: 'text' }).subscribe({
       next: (response) => {
@@ -34,61 +31,78 @@ export class ServizioMovimenti {
     });
   }
 
-  // 2. Recupera lo storico transazioni adattando la risposta (Risolve errore NG0900)
+  // 2. MODIFICA: Usiamo .pipe(tap(...)) per salvare la lista normalizzata nel Signal globale
   getTransactions(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/accounts/${this.accountId}/transactions`).pipe(
       map(res => {
-        if (res && Array.isArray(res.transactions)) return res;
-        if (Array.isArray(res)) return { transactions: res };
-        return { transactions: [] };
+        let lista: any[] = [];
+        
+        if (res && Array.isArray(res.transactions)) {
+          lista = res.transactions;
+        } else if (Array.isArray(res)) {
+          lista = res;
+        }
+
+        const listaNormalizzata = lista.map((m, index) => ({
+          ...m,
+          idUnico: m.id !== undefined ? `${m.id}-${index}` : `tx-${index}`
+        }));
+
+        return { transactions: listaNormalizzata };
+      }),
+      // Intercettiamo il risultato di 'map' e aggiorniamo il Signal
+      tap(risultatoNormalizzato => {
+        this.movimenti.set(risultatoNormalizzato.transactions);
       })
     );
   }
 
-  // 3. Cerca un singolo movimento specifico tramite il suo ID unico
   getTransactionById(id: number): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/accounts/${this.accountId}/transactions/${id}`);
   }
 
-  // 4. Modifica la descrizione di un movimento esistente tramite chiamata PUT
   updateTransaction(id: number, newDescription: string): Observable<any> {
     return this.http.put<any>(`${this.baseUrl}/accounts/${this.accountId}/transactions/${id}`, { description: newDescription });
   }
 
-  // 5. Invia un prelievo iniettando l'ID casuale per evitare il crash 1364 di MySQL
   createWithdrawal(amount: number, description: string): Observable<any> {
-    const payload = {
-      amount: amount,
-      description: description
-    };
-    return this.http.post<any>(`${this.baseUrl}/accounts/${this.accountId}/withdrawals`, payload);
+    const payload = { amount, description };
+    return this.http.post<any>(`${this.baseUrl}/accounts/${this.accountId}/withdrawals`, payload).pipe(
+      // Dopo il prelievo, aggiorna sia il saldo che la lista movimenti automaticamente
+      tap(() => {
+        this.getBalance();
+        this.getTransactions().subscribe();
+      })
+    );
   }
 
-  // 6. Invia un deposito iniettando l'ID casuale per evitare il crash 1364 di MySQL
+  // 3. MODIFICA: Aggiorna automaticamente transazioni e saldo subito dopo il deposito
   createDeposit(amount: number, description: string): Observable<any> {
-    const payload = {
-      amount: amount,
-      description: description
-    };
-    return this.http.post<any>(`${this.baseUrl}/accounts/${this.accountId}/deposits`, payload);
+    const payload = { amount, description };
+    return this.http.post<any>(`${this.baseUrl}/accounts/${this.accountId}/deposits`, payload).pipe(
+      // Sfrutta il tap per rinfrescare l'intero stato dell'applicazione in background
+      tap(() => {
+        this.getBalance();
+        this.getTransactions().subscribe();
+      })
+    );
   }
 
-  // 7. Cancella l'ultima transazione effettuata per preservare la consistenza
+  // 4. MODIFICA: Rinfresca i dati se viene eliminata una transazione
   deleteTransaction(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}/accounts/${this.accountId}/transactions/${id}`);
+    return this.http.delete<any>(`${this.baseUrl}/accounts/${this.accountId}/transactions/${id}`).pipe(
+      tap(() => {
+        this.getBalance();
+        this.getTransactions().subscribe();
+      })
+    );
   }
 
-  // 8. Effettua la conversione del saldo in una valuta fiat specifica (es. USD)
   convertToFiat(fiatCurrency: string): Observable<any> {
-    return this.http.get<any>(
-      `${this.baseUrl}/accounts/${this.accountId}/balance/convert/fiat?to=${fiatCurrency}`
-    );
+    return this.http.get<any>(`${this.baseUrl}/accounts/${this.accountId}/balance/convert/fiat?to=${fiatCurrency}`);
   }
 
-  // 9. Effettua la conversione del saldo in una criptovaluta specifica (es. BTC)
   convertToCrypto(cryptoCurrency: string): Observable<any> {
-    return this.http.get<any>(
-      `${this.baseUrl}/accounts/${this.accountId}/balance/convert/cryptos?to=${cryptoCurrency}`
-    );
+    return this.http.get<any>(`${this.baseUrl}/accounts/${this.accountId}/balance/convert/cryptos?to=${cryptoCurrency}`);
   }
 }

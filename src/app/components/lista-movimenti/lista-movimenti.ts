@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ServizioMovimenti } from '../../services/servizio-movimenti'; // Controlla il percorso
+import { ServizioMovimenti } from '../../services/servizio-movimenti';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -11,9 +11,13 @@ import { RouterLink } from '@angular/router';
   styleUrl: './lista-movimenti.css'
 })
 export class ListaMovimenti implements OnInit {
-  movimenti: any[] = [];
   caricamento: boolean = true;
   erroreMessaggio?: string;
+
+  // Legge in tempo reale i movimenti centralizzati dal servizio
+  get movimenti() {
+    return this.servizio.movimenti();
+  }
 
   constructor(private servizio: ServizioMovimenti) {}
 
@@ -21,12 +25,10 @@ export class ListaMovimenti implements OnInit {
     this.caricaMovimenti();
   }
 
-  // Spostiamo la logica in un metodo riutilizzabile
   caricaMovimenti() {
     this.caricamento = true;
     this.servizio.getTransactions().subscribe({
-      next: (risposta) => {
-        this.movimenti = risposta.transactions || [];
+      next: () => {
         this.caricamento = false;
       },
       error: (err) => {
