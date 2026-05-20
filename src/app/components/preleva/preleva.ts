@@ -1,19 +1,17 @@
-import { Component, Input, signal } from '@angular/core'; // Aggiunto signal
+import { Component, Input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { ServizioMovimenti } from '../../services/servizio-movimenti';
 
 @Component({
   selector: 'app-preleva',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './preleva.html',
   styleUrls: ['./preleva.css']
 })
 export class Preleva {
   @Input() mode: 'home' | 'full' = 'full';
-  
-  // Trasforma caricamento in un Signal reattivo
   caricamento = signal<boolean>(false);
 
   constructor(
@@ -34,12 +32,10 @@ export class Preleva {
       return;
     }
 
-    // Attiva lo stato di caricamento
     this.caricamento.set(true);
 
     this.servizio.createWithdrawal(valore, descrizione.trim()).subscribe({
       next: (risposta) => {
-        // Il servizio centralizzato aggiorna già saldo e lista movimenti grazie al .pipe(tap(...))
         if (risposta && risposta.balance_after !== undefined) {
           this.servizio.balance.set(Number(risposta.balance_after));
         }

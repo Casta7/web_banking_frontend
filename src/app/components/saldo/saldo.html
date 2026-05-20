@@ -1,7 +1,23 @@
-<div class="balance-card" [ngClass]="{'mode-home': mode === 'home', 'mode-full': mode === 'full'}" [routerLink]="['/saldo']">
+<div class="balance-card" [ngClass]="{'mode-home': mode === 'home', 'mode-full': mode === 'full'}" [routerLink]="mode === 'full' ? ['/saldo'] : null">
   <div class="card-content">
-    <p class="card-label">Saldo Totale</p>
-    <!-- Mostra il valore del getter formattato in Euro -->
-    <h2 class="card-amount">{{ saldo | currency:'EUR' }}</h2>
+    <div class="balance-section">
+      <p class="card-label">Saldo Totale</p>
+      <h2 class="card-amount">{{ saldo | currency:'EUR' }}</h2>
+    </div>
+
+    @if (mode === 'home') {
+      <div class="profile-section">
+        <div class="profile-image">
+          <svg xmlns="http://w3.org" viewBox="0 0 24 24" fill="currentColor">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M 12 14 C 8 14 5 16 5 18 V 22 H 19 V 18 C 19 16 16 14 12 14 Z"></path>
+          </svg>
+        </div>
+        <div class="user-info">
+          <p class="welcome-text">Benvenuto</p>
+          <p class="user-id">{{ userId }}</p>
+        </div>
+      </div>
+    }
   </div>
 </div>

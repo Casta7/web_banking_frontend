@@ -1,78 +1,231 @@
+/* ==========================================================================
+   Contenitore Principale (Glassmorphism Effect)
+   ========================================================================== */
 .movimenti-container {
-      margin: 20px;
-      padding: 2rem;
-      border-radius: 24px;
-      border: 1px solid #e2e8f0;
-      background: #ffffff;
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-      font-family: sans-serif;
-    }
-
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-    }
-    .header h2 { font-size: 1.4rem; color: #1e293b; margin: 0; }
-    .badge {
-      background: #f1f5f9;
-      color: #64748b;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-    }
-    .lista { display: flex; flex-direction: column; gap: 12px; }
-    .movimento-item {
-      display: flex;
-      align-items: center;
-      padding: 12px 16px;
-      border-radius: 12px;
-      border: 1px solid #f8fafc;
-      transition: background 0.2s;
-    }
-    .movimento-item:hover { background: #f8fafc; }
-    .icon-container {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-right: 16px;
-      font-weight: bold;
-    }
-    .icon-container.versamento { background: #dcfce7; color: #166534; }
-    .icon-container.prelievo { background: #fee2e2; color: #991b1b; }
-    .info { display: flex; flex-direction: column; flex-grow: 1; }
-    .descrizione { font-weight: 600; color: #334155; }
-    .data { font-size: 0.85rem; color: #94a3b8; }
-    .importo { font-weight: 700; }
-    .importo.versamento { color: #10b981; }
-    .importo.prelievo { color: #ef4444; }
-    .movimento-item {
-  cursor: pointer; /* Fa apparire la manina */
-  transition: all 0.2s ease;
+  margin: 0;
+  padding: 2rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+  font-family: sans-serif;
+  height: 100%;
 }
 
-.movimento-item:hover {
-  background-color: #f1f5f9;
-  transform: scale(1.01); /* Leggera animazione di ingrandimento */
+/* ==========================================================================
+   Header & Contatore Badge
+   ========================================================================== */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
 }
 
+.header h2 { 
+  font-size: 1.4rem; 
+  color: #1e293b; 
+  margin: 0; 
+  font-weight: 600;
+}
+
+.badge {
+  background: rgba(30, 41, 59, 0.08);
+  color: #64748b;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid rgba(30, 41, 59, 0.1);
+}
+
+/* ==========================================================================
+   Lista Scrollabile & Scrollbar customizzata
+   ========================================================================== */
+.lista { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 12px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.lista::-webkit-scrollbar {
+  width: 8px;
+}
+
+.lista::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+}
+
+.lista::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  backdrop-filter: blur(4px);
+}
+
+.lista::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+/* ==========================================================================
+   Elemento Singolo Movimento (Sfondi Gradienti Condizionali)
+   ========================================================================== */
+.movimento-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-sizing: border-box;
+  backdrop-filter: blur(8px);
+}
+
+/* Sfondi: Sfumatura gradiente sull'angolo in alto a sinistra */
+.movimento-item.versamento {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.12) 0%, rgba(255, 255, 255, 0.5) 40%);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.movimento-item.prelievo {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(255, 255, 255, 0.5) 40%);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Stati Hover con incremento della visibilità della sfumatura */
+.movimento-item.versamento:hover { 
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(255, 255, 255, 0.7) 60%);
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  transform: translateX(4px);
+  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.15);
+}
+
+.movimento-item.prelievo:hover { 
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(255, 255, 255, 0.7) 60%);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  transform: translateX(4px);
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.15);
+}
+
+/* ==========================================================================
+   Frecce Direzionali Nude (Senza cerchio esterno)
+   ========================================================================== */
+.icon-container {
+  width: 32px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.icon-container span {
+  color: #000000; 
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   Informazioni Testuali Internhe
+   ========================================================================== */
+.info { 
+  display: flex; 
+  flex-direction: column; 
+  flex-grow: 1; 
+}
+
+.descrizione { 
+  font-weight: 600; 
+  color: #1d1e22;
+  font-size: 0.95rem;
+}
+
+.data { 
+  font-size: 0.8rem; 
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
+/* ==========================================================================
+   Importo Monetario Semantico (Verde vs Rosso)
+   ========================================================================== */
+.importo { 
+  font-weight: 700;
+  font-size: 1rem;
+  margin: 3px 3px 3px auto;
+}
+
+.importo.versamento { 
+  color: #16a34a;
+}
+
+.importo.prelievo { 
+  color: #dc2626;
+}
+
+/* ==========================================================================
+   Pulsante Dettagli (Icona Info SVG)
+   ========================================================================== */
 .btn-info {
   background: none;
   border: none;
   color: #94a3b8;
   display: flex;
   align-items: center;
+  justify-content: center;
   padding: 8px;
   border-radius: 50%;
-  transition: background 0.2s;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  flex-shrink: 0;
 }
 
-.movimento-item:hover .btn-info {
-  background: #e2e8f0;
-  color: #6366f1;
+.movimento-item.versamento:hover .btn-info {
+  color: #16a34a;
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.movimento-item.prelievo:hover .btn-info {
+  color: #dc2626;
+  background: rgba(220, 38, 38, 0.1);
+}
+
+/* ==========================================================================
+   Stati Asincroni (Caricamento, Vuoto ed Errore)
+   ========================================================================== */
+.nessun-movimento {
+  text-align: center;
+  color: #94a3b8;
+  padding: 20px;
+  font-size: 0.95rem;
+}
+
+.caricamento {
+  text-align: center;
+  color: #16a34a;
+  padding: 20px;
+  font-size: 0.95rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.errore {
+  text-align: center;
+  color: #dc2626;
+  padding: 20px;
+  font-size: 0.95rem;
+  background: rgba(220, 38, 38, 0.05);
+  border: 1px solid rgba(220, 38, 38, 0.2);
+  border-radius: 8px;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
 }

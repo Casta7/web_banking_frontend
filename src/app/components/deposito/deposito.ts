@@ -1,19 +1,17 @@
-import { Component, Input, signal } from '@angular/core'; // Aggiunto signal
+import { Component, Input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { ServizioMovimenti } from '../../services/servizio-movimenti';
 
 @Component({
   selector: 'app-deposito',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './deposito.html',
   styleUrls: ['./deposito.css']
 })
 export class Deposito {
   @Input() mode: 'home' | 'full' = 'full';
-  
-  // Trasforma caricamento in un Signal
   caricamento = signal<boolean>(false);
 
   constructor(
@@ -34,7 +32,6 @@ export class Deposito {
       return;
     }
 
-    // Imposta il signal a true
     this.caricamento.set(true);
 
     this.servizio.createDeposit(valore, descrizione.trim()).subscribe({
@@ -45,7 +42,6 @@ export class Deposito {
           this.servizio.balance.set(Number(risposta.balance_after));
         }
 
-        // Il reset dello stato va fatto prima della navigazione
         this.caricamento.set(false);
         this.router.navigate(['/home']);
       },

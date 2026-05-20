@@ -1,8 +1,8 @@
 :host {
   display: block;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --primary-danger: #e63946;
-  --primary-danger-hover: #cb2d3b;
+  --primary-red: #dc2626;
+  --primary-red-hover: #b91c1c;
   --text-dark: #1d1e22;
   --text-muted: #6c757d;
   --bg-input: #f8f9fa;
@@ -20,15 +20,15 @@
   width: 100%;
 }
 
-/* --- ADATTAMENTO DELLE VERSIONI (HOME vs FULL) --- */
-
 /* Versione FULL: Pagina indipendente centrata, stile box elegante */
 .withdraw-card.mode-full {
-  max-width: 500px;
-  margin: 40px auto;
-  padding: 32px;
-  border-radius: var(--radius-lg);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  max-width: 550px;
+  margin: 50px auto;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(220, 38, 38, 0.08);
+  background: linear-gradient(135deg, #ffffff 0%, #fef2f2 100%);
+  border: 2px solid #fee2e2;
 }
 
 /* Versione HOME: Stile compatto ed essenziale per la griglia della dashboard */
@@ -38,9 +38,6 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
 }
 
-/* --- DETTAGLI DEI COMPONENTI INTERNI --- */
-
-/* Header */
 .card-header {
   display: flex;
   align-items: center;
@@ -53,15 +50,16 @@
 }
 
 .icon-badge {
-  background-color: #ffeef0;
-  color: var(--primary-danger);
-  width: 44px;
-  height: 44px;
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  color: #991b1b;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15);
 }
 
 .icon-badge svg {
@@ -86,7 +84,6 @@
   color: var(--text-muted);
 }
 
-/* Corpo del Form / Input */
 .card-body {
   display: flex;
   flex-direction: column;
@@ -138,17 +135,16 @@ input[type="text"] {
 }
 
 input[type="number"] {
-  padding-left: 32px; /* Lascia spazio al simbolo dell'Euro */
+  padding-left: 32px;
 }
 
 input:focus {
   outline: none;
   background-color: #ffffff;
-  border-color: var(--primary-danger);
-  box-shadow: 0 0 0 4px rgba(230, 57, 70, 0.1);
+  border-color: var(--primary-red);
+  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1);
 }
 
-/* Footer e Bottoni */
 .card-footer {
   margin-top: 24px;
   display: flex;
@@ -177,12 +173,16 @@ input:focus {
 }
 
 .btn-withdraw {
-  background-color: var(--primary-danger);
+  background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
   color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
 }
 
 .btn-withdraw:hover:not(:disabled) {
-  background-color: var(--primary-danger-hover);
+  background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
 }
 
 .btn-withdraw:disabled {
@@ -203,7 +203,6 @@ input:focus {
   color: var(--text-dark);
 }
 
-/* Animazione di Caricamento (Spinner) */
 .spinner {
   width: 18px;
   height: 18px;

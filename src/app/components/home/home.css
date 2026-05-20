@@ -1,13 +1,139 @@
-.container-first-row {
+.home-container {
   padding: 20px;
   display: flex;
-  gap: 24px;          /* Spazio tra le due card */
-  align-items: stretch; /* FORZA le card ad avere la stessa altezza */
-  margin-bottom: 30px;
+  flex-direction: column;
+  gap: 20px;
 }
 
-app-saldo, 
-app-deposito {
-  flex: 1;            /* Ognuno prende esattamente il 50% della larghezza */
-  display: flex;      /* Permette al contenuto interno di espandersi */
+.saldo-wrapper {
+  width: 100%;
+}
+
+.actions-wrapper {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Glass Card Style */
+.glass-card {
+  flex: 1;
+  min-height: 200px;
+  min-width: 200px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  font-family: inherit;
+}
+
+.glass-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 40px rgba(31, 38, 135, 0.15);
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.glass-card:active {
+  transform: translateY(-2px);
+}
+
+.glass-deposit {
+  background: rgba(3, 105, 161, 0.05);
+  border: 1.5px solid rgba(3, 105, 161, 0.2);
+}
+
+.glass-deposit:hover {
+  background: rgba(3, 105, 161, 0.1);
+  border: 1.5px solid rgba(3, 105, 161, 0.4);
+  box-shadow: 0 15px 40px rgba(3, 105, 161, 0.2);
+}
+
+.glass-withdraw {
+  background: rgba(220, 38, 38, 0.05);
+  border: 1.5px solid rgba(220, 38, 38, 0.2);
+}
+
+.glass-withdraw:hover {
+  background: rgba(220, 38, 38, 0.1);
+  border: 1.5px solid rgba(220, 38, 38, 0.4);
+  box-shadow: 0 15px 40px rgba(220, 38, 38, 0.2);
+}
+
+.glass-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.glass-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 2.5;
+}
+
+.glass-icon-deposit {
+  background: rgba(3, 105, 161, 0.15);
+  color: #0369a1;
+}
+
+.glass-icon-withdraw {
+  background: rgba(220, 38, 38, 0.15);
+  color: #dc2626;
+}
+
+.glass-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  text-align: left;
+}
+
+.glass-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1d1e22;
+}
+
+.glass-deposit .glass-title {
+  color: #0369a1;
+}
+
+.glass-withdraw .glass-title {
+  color: #dc2626;
+}
+
+.glass-subtitle {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.glass-arrow {
+  width: 20px;
+  height: 20px;
+  color: #94a3b8;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover .glass-arrow {
+  transform: translateX(4px);
+  color: #0369a1;
+}
+
+.glass-withdraw:hover .glass-arrow {
+  color: #dc2626;
 }

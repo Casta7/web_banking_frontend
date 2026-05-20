@@ -18,6 +18,10 @@ export class Saldo implements OnInit {
     return this.servizio.balance();
   }
 
+  get userId(): string {
+    return this.servizio.accountId;
+  }
+
   constructor(private servizio: ServizioMovimenti) {}
 
   ngOnInit() {

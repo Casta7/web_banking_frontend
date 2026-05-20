@@ -1,29 +1,98 @@
 /* Stile base comune */
 .balance-card {
   width: 100%;
-  height: 100%;       /* Fondamentale per il pareggio */
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Centra il saldo verticalmente */
-  padding: 2.5rem;    /* Deve essere identico al deposito */
+  justify-content: center;
+  padding: 2.5rem;
   box-sizing: border-box;
 }
 
 /* Stile per la HOME (più piccolo e discreto) */
 .balance-card.mode-home {
-  padding: 1rem;
-  background: #f1f5f9;
-  color: #1e293b;
-  border: 1px solid #e2e8f0;
-  border-radius: 24px;
-  cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Animazione fluida */
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  color: #0c4a6e;
+  border: 1px solid #7dd3fc;
+  border-radius: 16px;
+  cursor: auto;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
   overflow: hidden;
   z-index: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
 }
+
+.balance-card.mode-home .card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.balance-section {
+  flex: 1;
+}
+
 .balance-card.mode-home .card-amount {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
+  margin: 0.5rem 0 0 0;
+}
+
+.profile-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.profile-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0369a1;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(3, 105, 161, 0.2);
+}
+
+.profile-image svg {
+  width: 32px;
+  height: 32px;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.welcome-text {
+  font-size: 0.85rem;
+  color: #0369a1;
+  margin: 0;
+  font-weight: 500;
+}
+
+.user-id {
+  font-size: 0.75rem;
+  color: #0c4a6e;
+  margin: 0;
+  font-family: 'Courier New', monospace;
+  opacity: 0.7;
+  word-break: break-all;
+}
+
+.card-label {
+  font-size: 0.85rem;
+  color: #0369a1;
+  margin: 0;
+  font-weight: 500;
 }
 
 /* Stile per la PAGINA SPECIFICA (grande e d'impatto) */
@@ -39,9 +108,9 @@
 
 /* Effetto Hover */
 .balance-card.mode-home:hover {
-  transform: translateY(-8px) scale(1.02); /* Si alza e si ingrandisce leggermente */
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15); /* Ombra più intensa */
-  border-color: #3b82f6; /* Il bordo diventa blu (o il tuo colore primario) */
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  border-color: #3b82f6;
 }
 
 /* Effetto riflesso (opzionale, molto moderno) */
@@ -63,10 +132,10 @@
 }
 
 .balance-card.mode-home:hover::after {
-  left: 100%; /* Un lampo di luce attraversa la card */
+  left: 100%;
 }
 
-/* Se vuoi che anche il numero del saldo cambi colore al passaggio */
+/* Cambio colore del saldo al hover */
 .balance-card.mode-home:hover .card-amount {
   color: #3b82f6;
   transition: color 0.3s ease;

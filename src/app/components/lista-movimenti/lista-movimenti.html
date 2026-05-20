@@ -10,26 +10,25 @@
     <div class="errore">{{ erroreMessaggio }}</div>
   } @else {
     <div class="lista">
-      @for (m of movimenti; track m.id) {
-        <div class="movimento-item" [routerLink]="['/dettaglio', m.id]">
+      @for (m of movimenti; track m.idUnico) {
+        <div class="movimento-item" 
+             [ngClass]="( (m.type | lowercase) === 'deposit' || (m.tipo | lowercase) === 'versamento' ) ? 'versamento' : 'prelievo'" 
+             [routerLink]="['/dettaglio', m.id]">
           
-          <!-- Controllo tipo: gestisce sia italiano che inglese (type / tipo) -->
-          <div class="icon-container" [ngClass]="m.type || m.tipo">
-            <span>{{ (m.type === 'DEPOSIT' || m.tipo === 'versamento') ? '↓' : '↑' }}</span>
+          <!-- Rimosse le classi dinamiche: ora l'icona ha solo la struttura base -->
+          <div class="icon-container">
+            <span>{{ ( (m.type | lowercase) === 'deposit' || (m.tipo | lowercase) === 'versamento' ) ? '↓' : '↑' }}</span>
           </div>
           
           <div class="info">
-            <!-- Mappatura flessibile per descrizione e data -->
             <span class="descrizione">{{ m.description || m.descrizione }}</span>
             <span class="data">{{ (m.date || m.data) | date:'dd MMM yyyy':'':'it-IT' }}</span>
           </div>
 
-          <!-- Controllo importo positivo o negativo -->
-          <div class="importo" [ngClass]="m.type || m.tipo">
-            {{ (m.type === 'DEPOSIT' || m.tipo === 'versamento') ? '+' : '-' }} {{ m.amount || m.importo | currency:'EUR' }}
+          <div class="importo" [ngClass]="( (m.type | lowercase) === 'deposit' || (m.tipo | lowercase) === 'versamento' ) ? 'versamento' : 'prelievo'">
+            {{ ( (m.type | lowercase) === 'deposit' || (m.tipo | lowercase) === 'versamento' ) ? '+' : '-' }} {{ m.amount || m.importo | currency:'EUR' }}
           </div>
 
-          <!-- Bottone Info con SVG corretto -->
           <div class="action-info">
             <button class="btn-info" aria-label="Visualizza dettagli">
               <svg xmlns="http://w3.org" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

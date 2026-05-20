@@ -1,17 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
-import { map, Observable, tap } from 'rxjs'; // Aggiunto 'tap'
+import { map, Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ServizioMovimenti {
   private baseUrl = 'https://mini-banking-api.up.railway.app/api';
-  private accountId = '550e8400-e29b-41d4-a716-446655440000';
+  public accountId = '550e8400-e29b-41d4-a716-446655440000';
 
   public balance = signal(0);
-  
-  // 1. AGGIUNGI: Signal centralizzato per i movimenti, accessibile da tutta l'app
   public movimenti = signal<any[]>([]);
 
   constructor(private http: HttpClient) {}
@@ -50,7 +48,6 @@ export class ServizioMovimenti {
 
         return { transactions: listaNormalizzata };
       }),
-      // Intercettiamo il risultato di 'map' e aggiorniamo il Signal
       tap(risultatoNormalizzato => {
         this.movimenti.set(risultatoNormalizzato.transactions);
       })
@@ -68,7 +65,6 @@ export class ServizioMovimenti {
   createWithdrawal(amount: number, description: string): Observable<any> {
     const payload = { amount, description };
     return this.http.post<any>(`${this.baseUrl}/accounts/${this.accountId}/withdrawals`, payload).pipe(
-      // Dopo il prelievo, aggiorna sia il saldo che la lista movimenti automaticamente
       tap(() => {
         this.getBalance();
         this.getTransactions().subscribe();
@@ -76,11 +72,9 @@ export class ServizioMovimenti {
     );
   }
 
-  // 3. MODIFICA: Aggiorna automaticamente transazioni e saldo subito dopo il deposito
   createDeposit(amount: number, description: string): Observable<any> {
     const payload = { amount, description };
     return this.http.post<any>(`${this.baseUrl}/accounts/${this.accountId}/deposits`, payload).pipe(
-      // Sfrutta il tap per rinfrescare l'intero stato dell'applicazione in background
       tap(() => {
         this.getBalance();
         this.getTransactions().subscribe();
@@ -88,7 +82,6 @@ export class ServizioMovimenti {
     );
   }
 
-  // 4. MODIFICA: Rinfresca i dati se viene eliminata una transazione
   deleteTransaction(id: number): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/accounts/${this.accountId}/transactions/${id}`).pipe(
       tap(() => {

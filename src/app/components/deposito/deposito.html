@@ -1,5 +1,4 @@
 <div class="deposit-card" [ngClass]="{'mode-home': mode === 'home', 'mode-full': mode === 'full'}">
-  
   <div class="card-header">
     <div class="icon-badge">
       <svg xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
@@ -17,20 +16,17 @@
       <label for="importo">Importo da depositare</label>
       <div class="input-wrapper">
         <span class="currency-symbol">€</span>
-        <!-- Aggiunto disabilitazione input durante il caricamento -->
         <input #inputImporto [disabled]="caricamento()" type="number" id="importo" placeholder="0.00" min="0.01" step="0.01">
       </div>
     </div>
 
     <div class="input-group">
       <label for="descrizione">Causale / Descrizione</label>
-      <!-- Aggiunto disabilitazione input durante il caricamento -->
       <input #inputDescrizione [disabled]="caricamento()" type="text" id="descrizione" placeholder="Es. Stipendio, rimborso, regalo...">
     </div>
   </div>
 
   <div class="card-footer">
-    <!-- Richiamo del signal con caricamento() e classe dinamica per lo stile -->
     <button 
       [disabled]="caricamento()" 
       [class.btn-disabled]="caricamento()"

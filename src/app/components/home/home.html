@@ -1,9 +1,43 @@
-<div class="container-first-row">
-    <!-- Qui passi il parametro 'home' -->
+<div class="home-container">
+  <!-- Saldo in alto -->
+  <div class="saldo-wrapper">
     <app-saldo [mode]="'home'"></app-saldo>
-    <div>
-        <app-deposito [mode]="'home'"></app-deposito>
-        <app-preleva [mode]="'home'"></app-preleva>
-    </div>
+  </div>
+
+  <!-- Deposito e Prelievo sotto -->
+  <div class="actions-wrapper">
+    <button routerLink="/deposito" class="glass-card glass-deposit">
+      <div class="glass-icon glass-icon-deposit">
+        <svg xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+      </div>
+      <div class="glass-content">
+        <span class="glass-title">Deposito</span>
+        <span class="glass-subtitle">Aggiungi fondi</span>
+      </div>
+      <svg class="glass-arrow" xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+
+    <button routerLink="/preleva" class="glass-card glass-withdraw">
+      <div class="glass-icon glass-icon-withdraw">
+        <svg xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+      </div>
+      <div class="glass-content">
+        <span class="glass-title">Prelievo</span>
+        <span class="glass-subtitle">Ritira fondi</span>
+      </div>
+      <svg class="glass-arrow" xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Lista Movimenti -->
+  <app-lista-movimenti></app-lista-movimenti>
 </div>
-<app-lista-movimenti></app-lista-movimenti>
